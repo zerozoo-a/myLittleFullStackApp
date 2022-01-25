@@ -14,7 +14,7 @@ const Link1 = () => {
   async function submitHandler(e: any): Promise<void> {
     e.preventDefault();
     const user = {
-      name: userName,
+      comment: userName,
     };
     const response: Response = await fetch('http://localhost:8000/user', {
       method: 'POST',
