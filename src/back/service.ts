@@ -1,43 +1,53 @@
 import 'dotenv/config';
 import express from 'express';
 import userRouter from './routes/user';
-import mysql, { MysqlError } from 'mysql';
+import mysql from 'mysql2/promise';
 import cors from 'cors';
 import type { Express, Request, Response } from 'express';
+import { Sql } from './model/connection';
 
 const app: Express = express();
-export const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.PASSWORD,
-});
-connection.connect(function (error: MysqlError): void {
-  if (error) throw error;
-  console.log('my sql connected!');
+// export const con = mysql.createConnection({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.PASSWORD,
+// });
+// const pool :Pool= mysql.createPool({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   database: 'test',
+//   waitForConnections: true,
+//   connectionLimit: 10,
+//   queueLimit: 0
+// });
+// connection.connect(function (error): void {
+//   if (error) throw error;
+//   console.log('my sql connected!');
 
-  connection.query(
-    'CREATE DATABASE my_base_db;',
-    function (error: MysqlError, result): void {
-      if (error) {
-        connection.query('USE my_base_db;', function (error: MysqlError): void {
-          console.log('sql use!');
-        });
-        connection.query(
-          `CREATE TABLE users(
-            id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            name VARCHAR(20) NOT NULL,
-            email VARCHAR(25) NOT NULL
-            );`,
-          function (error: MysqlError): void {
-            console.log('table created!');
-          }
-        );
-      }
-    }
-  );
-});
+//   connection.query(
+//     'CREATE DATABASE my_base_db;',
+//     function (error, result): void {
+//       if (error) {
+//         connection.query('USE my_base_db;', function (error): void {
+//           console.log('sql use!');
+//         });
+//         connection.query(
+//           `CREATE TABLE users(
+//             id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+//             name VARCHAR(20) NOT NULL,
+//             email VARCHAR(25) NOT NULL
+//             );`,
+//           function (error,): void {
+//             console.log('table created!');
+//           }
+//         );
+//       }
+//     }
+//   );
+// });
 const PORT: number = 8000;
 const log = console.log;
+new Sql();
 
 app.use(cors());
 app.use(express.json());
