@@ -8,9 +8,9 @@ export default class IndexRoute implements Routes {
   public indexController = new IndexController();
 
   constructor() {
-    this.initialzieRoutes();
+    this.initializeRoutes();
   }
-  private initialzieRoutes(): void {
+  private initializeRoutes(): void {
     this.router.get(`${this.path}`, this.indexController.mainView);
   }
 }
